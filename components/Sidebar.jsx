@@ -4,7 +4,6 @@ import { MoonIcon, SunIcon, SwatchIcon } from "@heroicons/react/24/outline";
 
 export default function Sidebar() {
   const { darkMode, setDarkMode, setThemeColor, themeColor } = useStateContext();
-  const themeColors = ["indigo", "pink", "orange", "red", "cyan"];
 
   return (
     <aside className="w-64 absolute right-0" aria-label="Sidebar">
@@ -169,7 +168,9 @@ export default function Sidebar() {
                   onChange={() => {
                     setDarkMode((previousMode) => !previousMode);
                   }}
-                  className={`${darkMode ? `bg-${themeColor}-600` : `bg-${themeColor}-200`}
+                  className={`${
+                    darkMode ? `bg-${themeColor}-600` : `bg-gray-200`
+                  }
           relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
                 >
                   <span className="sr-only">Use setting</span>
@@ -189,12 +190,26 @@ export default function Sidebar() {
             >
               <SwatchIcon className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
               <span className="flex-1 flex ml-3 space-x-2">
-                {themeColors.map((color, index) => (
-                  <span
-                    onClick={() => setThemeColor(color)}
-                    className={`theme-color bg-${color}-600`}
-                  />
-                ))}
+              <span
+                  onClick={() => setThemeColor("indigo")}
+                  className={`theme-color bg-indigo-600`}
+                />
+                 <span
+                  onClick={() => setThemeColor("amber")}
+                  className={`theme-color bg-amber-600`}
+                />
+                 <span
+                  onClick={() => setThemeColor("pink")}
+                  className={`theme-color bg-pink-600`}
+                />
+                 <span
+                  onClick={() => setThemeColor("fuchsia")}
+                  className={`theme-color bg-fuchsia-600`}
+                />
+                 <span
+                  onClick={() => setThemeColor("lime")}
+                  className={`theme-color bg-lime-600`}
+                />
               </span>
             </a>
           </li>
