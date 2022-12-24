@@ -1,13 +1,14 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useStateContext } from "../contexts/StateContext";
+import Link from 'next/link';
+import { useRouter } from "next/router";
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Dashboard", href: "/" },
+  { name: "Team", href: "/"},
+  { name: "Projects", href: "/" },
+  { name: "Calendar", href: "/" },
 ];
 
 function classNames(...classes) {
@@ -15,9 +16,10 @@ function classNames(...classes) {
 }
 
 export default function Header() {
-  const { setIsSidebarOpen } = useStateContext();
+  const router = useRouter();
+  const { setIsSidebarOpen, activeTab, setActiveTab, themeColor } = useStateContext();
   return (
-    <Disclosure as="nav" className="dark:bg-gray-800 bg-gray-50 shadow-sm">
+    <Disclosure as="nav" className={`dark:bg-gray-800 bg-gray-50 shadow-sm`}>
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -36,12 +38,14 @@ export default function Header() {
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="block h-8 w-auto lg:hidden"
+                    onClick={() => router.push('/')}
+                    className="block h-8 w-auto lg:hidden cursor-pointer"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
                   />
                   <img
-                    className="hidden h-8 w-auto lg:block"
+                    onClick={() => router.push('/')}
+                    className="hidden h-8 w-auto lg:block cursor-pointer"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
                   />
@@ -49,19 +53,20 @@ export default function Header() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
+                        onClick={() => setActiveTab(item.name)}
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          item.name === activeTab
                             ? "bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-900"
                             : "text-gray-800 dark:text-white dark:hover:bg-gray-900 hover:bg-gray-200 dark:hover:text-white hover:text-black",
-                          "px-3 py-2 rounded-md text-sm font-medium"
+                          "px-3 py-2 rounded-md text-sm font-medium transition"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -98,20 +103,21 @@ export default function Header() {
           <Disclosure.Panel className="sm:hidden">
             <div className="space-y-1 px-2 pt-2 pb-3">
               {navigation.map((item) => (
-                <Disclosure.Button
+                <Link
+                  onClick={() => setActiveTab(item.name)}
                   key={item.name}
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block px-3 py-2 rounded-md text-base font-medium"
+                    item.name === activeTab
+                      ? "bg-gray-200 dark:bg-gray-900 dark:text-white text-gray-900"
+                      : "dark:hover:text-black dark:text-gray-300 hover:bg-gray-200 hover:text-black",
+                    "block px-3 py-2 rounded-md text-base font-medium transition"
                   )}
                   aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
-                </Disclosure.Button>
+                </Link>
               ))}
             </div>
           </Disclosure.Panel>

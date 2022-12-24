@@ -3,4 +3,7 @@
 @tailwind utilities;
 
 @layer components {
+    .theme-color {
+        @apply h-6 w-6 cursor-pointer rounded-full;
+    }
 }

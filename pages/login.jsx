@@ -1,10 +1,21 @@
-import React from "react";
-import Head from 'next/head';
+import {useEffect} from "react";
+import Head from "next/head";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../firebase";
+import { useStateContext } from "../contexts/StateContext";
+import {useRouter} from 'next/router';
 
 const Login = () => {
+  const { setUser, user} = useStateContext();
+  
+  const router = useRouter();
+
+  useEffect(() => {
+    if(user) router.push('/'); 
+  }, [user])
   const LoginWithGoogle = () => {
-    
-  }
+    signInWithPopup(auth, provider).then((user) => setUser(user.user));
+  };
   return (
     <div className="flex items-center w-full h-screen justify-center">
       <Head>
