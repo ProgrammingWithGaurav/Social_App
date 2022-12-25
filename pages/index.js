@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import HomePage from '../components/Home.jsx';
 import { useStateContext } from '../contexts/StateContext';
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       <div className={`${darkMode && 'dark bg-gray-800'} w-full h-screen`}>
           <Header />
          {isSidebarOpen &&  <Sidebar />}
+         <HomePage />
       </div>
     </div>
   )

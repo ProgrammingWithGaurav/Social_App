@@ -6,7 +6,7 @@ export default function Sidebar() {
   const { darkMode, setDarkMode, setThemeColor, themeColor } = useStateContext();
 
   return (
-    <aside className="w-64 absolute right-0" aria-label="Sidebar">
+    <aside className="w-64 absolute right-0 z-[100]" aria-label="Sidebar">
       <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
         <ul className="space-y-2">
           <li>
