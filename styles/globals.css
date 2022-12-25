@@ -8,7 +8,7 @@
     }
 
     .post-icon {
-        @apply w-6 h-6 text-gray-700 opacity-80 active:scale-125 transition active:opacity-90 mx-1 active:ring-1 active:ring-opacity-50 active:ring-indigo-200 rounded-full;
+        @apply w-6 h-6 text-gray-700 opacity-80 active:scale-125 transition active:opacity-90 mx-1 active:ring-1 dark:text-white active:ring-opacity-50 active:ring-indigo-200 rounded-full;
     }
 }
 

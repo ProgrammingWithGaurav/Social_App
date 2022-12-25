@@ -82,14 +82,14 @@ const posts = [
 const HomePage = () => {
     const {darkMode, themeColor} = useStateContext();
     return (
-        <div className={`flex-1 items-center flex h-[90vh]`}>
-            <div className={`lg:w-full h-full bg-white  w-[25px] md:w-[25px]`}></div>
-            <div className={`w-full sm:w-[85%] h-full p-2 scrollbar shadow-lg  ${darkMode ? `bg-${themeColor}-600` : ''}`}>
+        <div className={`flex-1 items-center flex h-[90vh] ${darkMode && 'bg-gray-800'}`}>
+            <div className={`lg:w-full h-full ${darkMode && 'bg-gray-800'}  w-[25px] md:w-[25px]`}></div>
+            <div className={`w-full sm:w-[85%] h-full p-2 scrollbar shadow-lg`}>
                 {posts.map((post, index) => (
                     <Post {...post} key={index}/>
                 ))}
             </div>
-            <div className='w-full h-full hidden bg-white lg:block'></div>
+            <div className='w-full h-full hidden lg:block'></div>
         </div>
     )
 }
