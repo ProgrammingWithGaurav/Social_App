@@ -9,12 +9,11 @@ import React from "react";
 import { useStateContext } from "../contexts/StateContext";
 
 const Post = ({ photoURL, name, postPic, likes, comments }) => {
-  const { themeColor, darkMode } = useStateContext();
   return (
     <div
-      className={`flex-1 flex-col flex h-full justify-center shadow bg-white dark:bg-gray-700 dark:text-white space-y-1 mx-auto mb-4 p-4 rounded-2xl`}
+      className={`flex-1 flex-col flex h-[500px] justify-center shadow bg-white dark:bg-gray-700 dark:text-white space-y-1 mx-auto mb-4 p-4 rounded-2xl`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between ">
         <img src={photoURL} className="w-8 h-8 rounded-full" />
         <span className="font-bold w-[80%]">{name}</span>
         <span>

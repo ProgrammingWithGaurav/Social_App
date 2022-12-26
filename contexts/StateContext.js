@@ -10,6 +10,7 @@ export const ContextProvider = ({ children }) => {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [themeColor, setThemeColor] = useState('indigo')
   const [user, setUser] = useState(null);
+  const [activeSidebarMenu, setActiveSidebarMenu] = useState('Home');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
@@ -21,7 +22,7 @@ export const ContextProvider = ({ children }) => {
   }, [user])
   return (
     <StateContext.Provider
-      value={{ darkMode, setDarkMode, isSidebarOpen, setIsSidebarOpen, activeTab, setActiveTab, themeColor, setThemeColor, user, setUser}}
+      value={{ darkMode, setDarkMode, isSidebarOpen, setIsSidebarOpen, activeTab, setActiveTab, themeColor, setThemeColor, user, setUser, activeSidebarMenu, setActiveSidebarMenu }}
     >
       {children}
     </StateContext.Provider>

@@ -8,10 +8,14 @@
     }
 
     .post-icon {
-        @apply w-6 h-6 text-gray-700 opacity-80 active:scale-125 transition active:opacity-90 mx-1 active:ring-1 dark:text-white active:ring-opacity-50 active:ring-indigo-200 rounded-full;
+        @apply w-6 h-6 text-gray-700 opacity-80 active:scale-125 transition active:opacity-90 mx-1 active:ring-1 dark:text-white cursor-pointer active:ring-opacity-50 active:ring-indigo-200 rounded-full;
+    }
+    .sidebar-icon {
+        @apply w-6 h-6 text-gray-500 transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white ;
     }
 }
 
 html {
     scroll-behavior: smooth;
+    overflow: hidden;
 }

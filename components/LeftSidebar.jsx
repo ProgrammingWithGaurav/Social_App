@@ -19,7 +19,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { ExploreIcon, ActiveExploreIcon } from "./Icons/Icon";
 
-export default function Sidebar() {
+export default function LeftSidebar() {
   const { darkMode, setDarkMode, setThemeColor, themeColor, user, activeSidebarMenu, setActiveSidebarMenu } =
     useStateContext();
   const MenuItems = [
@@ -81,8 +81,8 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 absolute right-0 z-[100]" aria-label="Sidebar">
-      <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded-2xl shadow-xl dark:bg-gray-800">
+    <aside className="w-[25%] absolute left-0 z-[100]" aria-label="Sidebar">
+      <div className="overflow-y-auto py-4 h-[90vh] scrollbar scrollbar-thumb-transparent scrollbar-transarent px-3 bg-gray-50 rounded-2xl shadow-xl dark:bg-gray-800">
         <ul className="space-y-2">
           <li>
             {MenuItems.map((item, index) => (

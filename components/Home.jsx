@@ -1,5 +1,6 @@
 import React from 'react'
 import { useStateContext } from '../contexts/StateContext'
+import LeftSidebar from './LeftSidebar'
 import Post from './Post'
 const posts = [
     {
@@ -80,11 +81,13 @@ const posts = [
     },
 ]
 const HomePage = () => {
-    const {darkMode, themeColor} = useStateContext();
+    const {darkMode} = useStateContext();
     return (
         <div className={`flex-1 items-center flex h-[90vh] ${darkMode && 'bg-gray-800'}`}>
-            <div className={`lg:w-full h-full ${darkMode && 'bg-gray-800'}  w-[25px] md:w-[25px]`}></div>
-            <div className={`w-full sm:w-[85%] h-full p-2 scrollbar shadow-lg`}>
+            <div className={`lg:w-full md:block lg:block h-full hidden`}>
+                <LeftSidebar />
+            </div>
+            <div className={`lg:w-full md:w-[400px] sm:w-[85%] h-[500px] mx-auto p-2 overflow-x-hidden scrollbar shadow-lg`}>
                 {posts.map((post, index) => (
                     <Post {...post} key={index}/>
                 ))}

@@ -17,9 +17,9 @@ function classNames(...classes) {
 
 export default function Header() {
   const router = useRouter();
-  const { setIsSidebarOpen,user, activeTab, setActiveTab, themeColor } = useStateContext();
+  const { setIsSidebarOpen,user, activeTab, setActiveTab } = useStateContext();
   return (
-    <Disclosure as="nav" className={`dark:bg-gray-800 bg-gray-50 shadow-sm`}>
+    <Disclosure as="nav" className={`dark:bg-gray-800 sticky top-0 bg-gray-50 shadow-sm z-[1000]`}>
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
