@@ -56,6 +56,9 @@ export default function Sidebar() {
 
             <a
               href="#"
+              onClick={() => {
+                setDarkMode((previousMode) => !previousMode);
+              }}
               className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               {darkMode ? (
@@ -66,9 +69,6 @@ export default function Sidebar() {
               <span className="flex-1 ml-3 whitespace-nowrap">
                 <Switch
                   checked={darkMode}
-                  onChange={() => {
-                    setDarkMode((previousMode) => !previousMode);
-                  }}
                   className={`${
                     darkMode ? `bg-${themeColor}-600` : `bg-gray-200`
                   }

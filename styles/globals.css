@@ -17,6 +17,10 @@
     .notification-dot{
         @apply absolute right-0 bg-red-600 top-0 w-2 h-2 rounded-full animate-pulse;
     }
+
+    .comment-bottom-text{
+        @apply text-gray-400 transition text-[0.8rem] font-semibold cursor-pointer opacity-80 hover:opacity-100;
+    }
 }
 
 /* width */

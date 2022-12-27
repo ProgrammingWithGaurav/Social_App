@@ -12,7 +12,6 @@ export default function Home() {
 
   useEffect(() => {
     if(!user) router.push('/login'); 
-    handleClick('HomePage')
   }, [user])
   return (
     <div>
