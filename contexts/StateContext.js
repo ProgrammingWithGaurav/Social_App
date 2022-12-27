@@ -27,12 +27,14 @@ export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [activeSidebarMenu, setActiveSidebarMenu] = useState('Home');
   const [activePost, setActivePost] = useState(null);
+  
   const [initialState, setInitialState] = useState({
-    HomePage: true,
+    HomePage: false,
     ProfilePage: false,
     PostPage: false,
-
+    
   })
+  const [isClicked, setIsClicked] = useState(initialState);
 
   const MenuItems = [
     {
@@ -102,7 +104,7 @@ export const ContextProvider = ({ children }) => {
     },
   ];
 
-
+  const handleClick = (clicked) => setIsClicked({ ...initialState, [clicked]: true });
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser);
@@ -113,7 +115,7 @@ export const ContextProvider = ({ children }) => {
   }, [user])
   return (
     <StateContext.Provider
-      value={{ darkMode, setDarkMode, isSidebarOpen, setIsSidebarOpen, activeTab, setActiveTab, themeColor, setThemeColor, user, setUser, activeSidebarMenu, setActiveSidebarMenu, activePost, setActivePost, initialState, setInitialState, MenuItems }}
+      value={{ darkMode, setDarkMode, isSidebarOpen, setIsSidebarOpen, activeTab, setActiveTab, themeColor, setThemeColor, user, setUser, activeSidebarMenu, setActiveSidebarMenu, activePost, setActivePost, initialState, setInitialState, MenuItems, isClicked, handleClick }}
     >
       {children}
     </StateContext.Provider>

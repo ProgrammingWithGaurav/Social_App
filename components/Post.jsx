@@ -10,7 +10,7 @@ import { useStateContext } from "../contexts/StateContext";
 
 
 const Post = ({ photoURL, name, postPic, likes, comments, id }) => {
-  const {setActivePost} = useStateContext();
+  const {setActivePost, handleClick} = useStateContext();
   return (
     <div
       className={`flex-1 flex-col flex h-[500px] justify-center shadow bg-white dark:bg-gray-700 dark:text-white space-y-1 mx-auto mb-4 p-4 rounded-2xl`}
@@ -27,6 +27,7 @@ const Post = ({ photoURL, name, postPic, likes, comments, id }) => {
         src={postPic}
         onClick={() =>{
           setActivePost(id);
+          handleClick('PostDetails');
         }}
         className="w-full cursor-pointer h-[90%] rounded-2xl opacity-90 hover:opacity-85"
       />

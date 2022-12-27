@@ -25,18 +25,18 @@ const posts = [
     }
 ]
 const HomePage = () => {
-    const {darkMode, initialState, setInitialState} = useStateContext();
+    const {darkMode, isClicked} = useStateContext();
     return (
         <div className={`flex-1 items-center flex h-[90vh] ${darkMode && 'bg-gray-800'}`}>
             <div className={`lg:w-full md:block lg:block h-full hidden`}>
                 <LeftSidebar />
             </div>
-            <div className={`lg:w-full md:w-[400px] sm:w-[85%] h-full mx-auto p-2 overflow-x-hidden scrollbar shadow-lg`}>
-                {initialState.HomePage && posts.map((post, index) => (
+            <div className={`lg:w-full md:w-[400px] sm:w-[85%] h-full mx-auto p-2 overflow-x-hidden ${isClicked.HomePage && 'scrollbar' }shadow-lg`}>
+                {isClicked.HomePage && posts.map((post, index) => (
                     <Post {...post} key={index}/>
                 ))}
-                {initialState.PostDetails && <PostDetails />}
-                {initialState.ProfilePage && <ProfilePage />}
+                {isClicked.PostDetails && <PostDetails />}
+                {isClicked.ProfilePage && <ProfilePage />}
             </div>
             <div className='w-full h-full hidden lg:block'></div>
         </div>

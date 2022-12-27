@@ -7,11 +7,12 @@ import HomePage from '../components/Home.jsx';
 import { useStateContext } from '../contexts/StateContext';
 
 export default function Home() {
-  const {darkMode, isSidebarOpen, user} = useStateContext();
+  const {darkMode, isSidebarOpen, user, handleClick} = useStateContext();
   const router = useRouter();
 
   useEffect(() => {
     if(!user) router.push('/login'); 
+    handleClick('HomePage')
   }, [user])
   return (
     <div>

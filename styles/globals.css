@@ -19,7 +19,18 @@
     }
 }
 
-html {
-    scroll-behavior: smooth;
-    overflow: hidden;
-}
+/* width */
+::-webkit-scrollbar {
+    width: 0;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
+  
