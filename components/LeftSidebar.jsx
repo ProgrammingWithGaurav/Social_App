@@ -1,91 +1,20 @@
 import { Switch } from "@headlessui/react";
 import { useStateContext } from "../contexts/StateContext";
 import {
-  HomeIcon,
-  MagnifyingGlassIcon,
   MoonIcon,
-  PlusCircleIcon,
   SunIcon,
   SwatchIcon,
-  PaperAirplaneIcon,
-  HeartIcon,
 } from "@heroicons/react/24/outline";
-import {
-  MagnifyingGlassIcon as ActiveMagnifyingGlassIcon,
-  HomeIcon as ActiveHomeIcon,
-  PaperAirplaneIcon as ActiveAirplaneIcon,
-  HeartIcon as ActiveHeartIcon,
-  PlusCircleIcon as ActivePlusCircleIcon,
-} from "@heroicons/react/24/solid";
-import { ExploreIcon, ActiveExploreIcon } from "./Icons/Icon";
 
 export default function LeftSidebar() {
-  const { darkMode, setDarkMode, setThemeColor, themeColor, user, activeSidebarMenu, setActiveSidebarMenu } =
+  const { darkMode, setDarkMode, setThemeColor, themeColor, MenuItems, activeSidebarMenu, setActiveSidebarMenu } =
     useStateContext();
-  const MenuItems = [
-    {
-      name: "Home",
-      icon: <HomeIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveHomeIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Search",
-      icon: <MagnifyingGlassIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveMagnifyingGlassIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Explore",
-      icon: <ExploreIcon />,
-      activeIcon: <ActiveExploreIcon/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Messages",
-      icon: <PaperAirplaneIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveAirplaneIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Notifications",
-      icon: <HeartIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveHeartIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Create",
-      icon: <PlusCircleIcon className='sidebar-icon'/>,
-      activeIcon: <ActivePlusCircleIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Profile",
-      photoURL: user?.photoURL,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-  ];
-
   return (
     <aside className="w-[25%] absolute left-0 z-[100]" aria-label="Sidebar">
       <div className="overflow-y-auto py-4 h-[90vh] scrollbar scrollbar-thumb-transparent scrollbar-transarent px-3 bg-gray-50 rounded-2xl shadow-xl dark:bg-gray-800">
         <ul className="space-y-2">
           <li>
-            {MenuItems.map((item, index) => (
+            {MenuItems?.map((item, index) => (
               <a
               onClick={()=> {
                 item.onClick();

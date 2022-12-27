@@ -1,106 +1,59 @@
 import { Switch } from "@headlessui/react";
 import { useStateContext } from "../contexts/StateContext";
 import {
-  HomeIcon,
-  MagnifyingGlassIcon,
   MoonIcon,
-  PlusCircleIcon,
   SunIcon,
   SwatchIcon,
-  PaperAirplaneIcon,
-  HeartIcon,
 } from "@heroicons/react/24/outline";
-import {
-  MagnifyingGlassIcon as ActiveMagnifyingGlassIcon,
-  HomeIcon as ActiveHomeIcon,
-  PaperAirplaneIcon as ActiveAirplaneIcon,
-  HeartIcon as ActiveHeartIcon,
-  PlusCircleIcon as ActivePlusCircleIcon,
-} from "@heroicons/react/24/solid";
-import { ExploreIcon, ActiveExploreIcon } from "./Icons/Icon";
+
 
 export default function Sidebar() {
-  const { darkMode, setDarkMode, setThemeColor, themeColor, user, activeSidebarMenu, setActiveSidebarMenu } =
-    useStateContext();
-  const MenuItems = [
-    {
-      name: "Home",
-      icon: <HomeIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveHomeIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Search",
-      icon: <MagnifyingGlassIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveMagnifyingGlassIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Explore",
-      icon: <ExploreIcon />,
-      activeIcon: <ActiveExploreIcon/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Messages",
-      icon: <PaperAirplaneIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveAirplaneIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Notifications",
-      icon: <HeartIcon className='sidebar-icon'/>,
-      activeIcon: <ActiveHeartIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Create",
-      icon: <PlusCircleIcon className='sidebar-icon'/>,
-      activeIcon: <ActivePlusCircleIcon className='sidebar-icon text-black'/>,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-    {
-      name: "Profile",
-      photoURL: user?.photoURL,
-      onClick: () => {
-        console.log("HI");
-      },
-    },
-  ];
+  const {
+    darkMode,
+    setDarkMode,
+    setThemeColor,
+    themeColor,
+    activeSidebarMenu,
+    setActiveSidebarMenu,
+    MenuItems
+  } = useStateContext();
 
   return (
     <aside className="w-64 absolute right-0 z-[100]" aria-label="Sidebar">
       <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded-2xl shadow-xl dark:bg-gray-800">
         <ul className="space-y-2">
           <li>
-            {MenuItems.map((item, index) => (
+            {MenuItems?.map((item, index) => (
               <a
-              onClick={()=> {
-                item.onClick();
-                setActiveSidebarMenu(item.name)
-                
-              }}
-              href="#"
-              key={index}
-              className={`flex items-center p-2 transition text-base font-normal text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 ${item.name === activeSidebarMenu && 'bg-gray-200 dark:bg-gray-700'}`}
-            >
-              {item.photoURL ? <img src={item.photoURL} className={`w-6 h-6 hover:opacity-90 rounded-full transition duration-75 ${item.name === activeSidebarMenu && 'ring-2 ring-gray-500'}`} /> : <>{activeSidebarMenu === item.name ? item.activeIcon : item.icon}</> }
-              <span className="ml-3">{item.name}</span>
-            </a>
+                onClick={() => {
+                  item.onClick();
+                  setActiveSidebarMenu(item.name);
+                }}
+                href="#"
+                key={index}
+                className={`flex items-center p-2 transition text-base font-normal text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 ${
+                  item.name === activeSidebarMenu &&
+                  "bg-gray-200 dark:bg-gray-700"
+                }`}
+              >
+                {item.photoURL ? (
+                  <img
+                    src={item.photoURL}
+                    className={`w-6 h-6 hover:opacity-90 rounded-full transition duration-75 ${
+                      item.name === activeSidebarMenu && "ring-2 ring-gray-500"
+                    }`}
+                  />
+                ) : (
+                  <>
+                    {activeSidebarMenu === item.name
+                      ? item.activeIcon
+                      : item.icon}
+                  </>
+                )}
+                <span className="ml-3">{item.name}</span>
+              </a>
             ))}
-          
+
             <a
               href="#"
               className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"

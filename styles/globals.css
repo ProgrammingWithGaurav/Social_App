@@ -13,6 +13,10 @@
     .sidebar-icon {
         @apply w-6 h-6 text-gray-500 transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white ;
     }
+
+    .notification-dot{
+        @apply absolute right-0 bg-red-600 top-0 w-2 h-2 rounded-full animate-pulse;
+    }
 }
 
 html {
