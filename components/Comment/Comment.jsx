@@ -2,9 +2,9 @@ import React from "react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import ReactTimeAgo from "react-time-ago";
 
-const Comment = ({ photoURL, name, comment, timestamp, postedUserComment }) => {
+const Comment = ({ photoURL, name, comment, timestamp, postedUserComment , id}) => {
   return (
-    <div classNmae="flex flex-col border-b border-gray-200 dark:border-gray-800 ">
+    <div classNmae="flex flex-col border-b border-gray-200 dark:border-gray-800 " id={id}>
       <div className="flex items-center justify-around">
         <div className="flex items-center w-[90%]">
           <img

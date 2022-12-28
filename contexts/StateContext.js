@@ -41,41 +41,38 @@ export const ContextProvider = ({ children }) => {
       likes: 0,
       comments: [
         {
-          id: 1,
+          id: 'afdad',
           name: "John Smith",
           comment: "Nice post",
           photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
           timestamp: new Date(),
-        }, {
+          type: 'comment'
+        },{
+          id: '2',
+          name: "Gaurav",
+          comment: "Nice post",
+          photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
+          timestamp: new Date(),
+          type: 'comment'
+        },
+         {
           id: 2,
           name: "John Smith",
           comment: "Nice post",
           photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
           timestamp: new Date(),
+          repliedMessage: {
+            id: 'afdad',
+            name: "John Smith",
+            photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
+            timestamp: new Date(),
+          },
+          type: 'reply',
         },
       ],
       title: "hi see my this post",
       views: 120,
-    }, {
-      photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
-      userUid: "user1",
-      id: "user2post",
-      name: "Gaurav",
-      postPic:
-        "https://img.freepik.com/free-psd/social-media-instagram-post-template_47618-73.jpg?w=2000",
-      likes: 0,
-      comments: [
-        {
-          id: 3,
-          name: "Gaurav",
-          comment: "Nice post !! WOWW",
-          photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
-          timestamp: new Date(),
-        }
-      ],
-      title: "hi see my this post",
-      views: 120,
-    },
+    }
   ]);
   const MenuItems = [
     {
@@ -174,6 +171,7 @@ export const ContextProvider = ({ children }) => {
         setActivePost,
         MenuItems,
         posts,
+        setPosts
       }}
     >
       {children}
