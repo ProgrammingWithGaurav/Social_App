@@ -16,10 +16,12 @@ import {
   PlusCircleIcon as ActivePlusCircleIcon,
 } from "@heroicons/react/24/solid";
 import { ExploreIcon, ActiveExploreIcon } from "../components/Icons/Icon";
+import { useRouter } from "next/router";
 
 const StateContext = createContext();
 
 export const ContextProvider = ({ children }) => {
+  const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Dashboard");
@@ -81,7 +83,7 @@ export const ContextProvider = ({ children }) => {
       icon: <HomeIcon className="sidebar-icon" />,
       activeIcon: <ActiveHomeIcon className="sidebar-icon text-black" />,
       onClick: () => {
-        console.log("HI");
+        router.push('/')
       },
     },
     {
@@ -140,7 +142,7 @@ export const ContextProvider = ({ children }) => {
       name: "Profile",
       photoURL: user?.photoURL,
       onClick: () => {
-        console.log("HI");
+        router.push('/profile')
       },
     },
   ];

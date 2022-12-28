@@ -2,6 +2,7 @@ import React from "react";
 import { useStateContext } from "../contexts/StateContext";
 import CommentTab from "./Comment/CommentTab";
 import LeftSidebar from "./LeftSidebar";
+import Profile from '../components/Profile'
 import Post from "./Post";
 
 const HomePage = ({ page }) => {
@@ -23,6 +24,7 @@ const HomePage = ({ page }) => {
          && posts?.map((post, index) => <Post {...post} key={index} />)
           }
           {page === 'comment' && <CommentTab />}
+          {page === 'profile' && <Profile />}
       </div>
       <div className="w-full h-full hidden lg:block"></div>
     </div>
