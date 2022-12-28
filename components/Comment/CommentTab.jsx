@@ -1,26 +1,30 @@
 import { ChevronLeftIcon, PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useStateContext } from "../contexts/StateContext";
+import { useStateContext } from "../../contexts/StateContext";
 import Comment from "./Comment";
 
-const PostDetails = () => {
+export default function CommentTab() {
+  const { posts } = useStateContext();
+  const router = useRouter();
+  const { query: activePost } = useRouter();
   const [input, setInput] = useState("");
   const [comments, setComments] = useState([]);
-  const { handleClick } = useStateContext();
+  const postDetail = posts.filter(post => post.id === activePost['CommentPage'])[0]
 
   const sendComment = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && input.trim() !== '') {
       console.log(input);
       setInput("");
     }
   };
 
-  const {posts } = useStateContext();
-
   useEffect(() => {
-    const { comments } = posts?.filter((post) => post?.id === activePost)[0];
-    setComments(comments);
-  }, [activePost, comments]);
+    if(activePost){
+      const { comments } = posts?.filter((post) => post?.id === activePost['CommentPage'])[0];
+      setComments(comments);
+    }
+  }, [comments, activePost]);
 
   return (
     <div
@@ -28,8 +32,8 @@ const PostDetails = () => {
     >
       <div className="flex items-center justify-between border-b border-gray-50 dark:border-none w-full mt-2 p-2 rounded-lg">
         <ChevronLeftIcon
-          className="sidebar-icon"
-          onClick={() => handleClick("HomePage")}
+          className="post-icon"
+          onClick={() => router.push('/')}
         />
         <span className="font-semibold flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer text-gray-700 rounded transition dark:text-white dark:hover:bg-gray-800">
           Comments{" "}
@@ -37,12 +41,14 @@ const PostDetails = () => {
             5
           </span>
         </span>
-        <PaperAirplaneIcon className="sidebar-icon" />
+        <PaperAirplaneIcon className="post-icon" />
       </div>
       {/* Comments */}
       <div className="flex flex-col justify-center px-2">
+        <Comment  {...postDetail} comment={postDetail.title} postedUserComment={true}/>
+        <span  className='w-full border-b border-gray-100 dark:border-gray-800 mb-4'/>
         {comments?.map((comment, index) => (
-          <Comment key={index} {...comment}/>
+          <Comment key={index} {...comment} />
         ))}
       </div>
 
@@ -59,6 +65,4 @@ const PostDetails = () => {
       </div>
     </div>
   );
-};
-
-export default PostDetails;
+}

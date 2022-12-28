@@ -57,7 +57,7 @@ export const ContextProvider = ({ children }) => {
     }, {
       photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
       userUid: "user1",
-      id: "user1post",
+      id: "user2post",
       name: "Gaurav",
       postPic:
         "https://img.freepik.com/free-psd/social-media-instagram-post-template_47618-73.jpg?w=2000",

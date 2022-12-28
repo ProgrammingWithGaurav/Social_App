@@ -1,13 +1,12 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
-import HomePage from '../components/Home.jsx';
-import { useStateContext } from '../contexts/StateContext';
+import Header from '../../components/Header';
+import Sidebar from '../../components/Sidebar';
+import { useStateContext } from '../../contexts/StateContext';
+import HomePage from '../../components/Home';
 
-
-export default function Home() {
+export default function CommentPage() {
   const {darkMode, isSidebarOpen, user} = useStateContext();
   const router = useRouter();
 
@@ -17,7 +16,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Social App</title>
+        <title>Social App | Post</title>
         <meta name="description" content="NextJs App" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -25,7 +24,7 @@ export default function Home() {
       <div className={`${darkMode && 'dark bg-gray-800'} w-full h-screen`}>
           <Header />
          {isSidebarOpen &&  <Sidebar />}
-         <HomePage page='home'/>
+         <HomePage page='comment' />
       </div>
     </div>
   )

@@ -7,10 +7,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import React from "react";
-import { useStateContext } from "../contexts/StateContext";
+import ReactTimeAgo from "react-time-ago";
 
 
-const Post = ({ photoURL, name, postPic, likes, comments, id }) => {
+const Post = ({ photoURL, name, postPic, likes, comments, id, timestmap }) => {
   const router = useRouter()
   return (
     <div
@@ -18,7 +18,9 @@ const Post = ({ photoURL, name, postPic, likes, comments, id }) => {
     >
       <div className="flex items-center justify-between ">
         <img src={photoURL} className="w-8 h-8 rounded-full" />
-        <span className="font-bold w-[80%]">{name}</span>
+        <span className="font-bold w-[80%]">{name}
+          <ReactTimeAgo className='text-sm font-normal text-gray-600 dark:text-gray-300 ml-2' date={new Date()} locale="en-US"/>
+          </span>
         <span>
           <EllipsisVerticalIcon className="post-icon" />
         </span>
