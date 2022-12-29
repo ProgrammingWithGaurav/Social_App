@@ -19,7 +19,7 @@ const Comment = ({ photoURL, name, comment, timestamp, postedUserComment , id}) 
           </span>
         </div>
         {!postedUserComment && (
-          <HeartIcon className="w-[1.8rem] post-icon text-gray-400 " />
+          <HeartIcon className="w-[1.8rem] sidebar-icon text-gray-400 " />
         )}
       </div>
 

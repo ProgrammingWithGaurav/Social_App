@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import HomePage from '../components/Home.jsx';
 import { useStateContext } from '../contexts/StateContext';
+import AddModal from '../components/AddModal';
 
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
           <Header />
          {isSidebarOpen &&  <Sidebar />}
          <HomePage page='home'/>
+         <AddModal />
       </div>
     </div>
   )

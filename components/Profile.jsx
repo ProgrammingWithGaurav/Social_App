@@ -1,6 +1,7 @@
 import React from "react";
 import ReactTimeAgo from "react-time-ago";
 import { useStateContext } from "../contexts/StateContext";
+import AddModal from '../components/AddModal';
 
 const Profile = () => {
     const {user} = useStateContext();
@@ -49,6 +50,8 @@ const Profile = () => {
           <p className="text-emerald-400 font-semibold mt-2.5">Active</p>
         </section>
       </section>
+
+      <AddModal />
     </div>
   );
 };

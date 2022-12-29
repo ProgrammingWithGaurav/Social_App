@@ -29,6 +29,7 @@ export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [activeSidebarMenu, setActiveSidebarMenu] = useState("Home");
   const [activePost, setActivePost] = useState(null);
+  const [isModal, setIsModal] = useState(true);
 
   const [posts, setPosts] = useState([
     {
@@ -132,7 +133,7 @@ export const ContextProvider = ({ children }) => {
       icon: <PlusCircleIcon className="sidebar-icon" />,
       activeIcon: <ActivePlusCircleIcon className="sidebar-icon text-black" />,
       onClick: () => {
-        console.log("HI");
+        setIsModal(true);
       },
     },
     {
@@ -171,7 +172,8 @@ export const ContextProvider = ({ children }) => {
         setActivePost,
         MenuItems,
         posts,
-        setPosts
+        setPosts,
+        isModal, setIsModal
       }}
     >
       {children}
