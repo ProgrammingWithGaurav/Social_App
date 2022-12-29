@@ -9,6 +9,7 @@ import HomePage from '../../components/Home';
 export default function CommentPage() {
   const {darkMode, isSidebarOpen, user} = useStateContext();
   const router = useRouter();
+  console.log(router.query)
 
   useEffect(() => {
     if(!user) router.push('/login'); 

@@ -1,22 +1,51 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CameraIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
 import { useStateContext } from "../contexts/StateContext";
 
+import { db, storage } from "../firebase";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { ref, getDownloadURL, uploadString } from "firebase/storage";
+
 export default function Modal() {
-  const { isModal, setIsModal } = useStateContext();
+  const { isModal, setIsModal, user } = useStateContext();
   const filePickerRef = useRef();
   const captionRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const router = useRouter();
 
   const uploadPost = async () => {
     if (loading) return;
     setLoading(true);
+    const docRef = await addDoc(collection(db, "social_app"), {
+      username: user?.displayName,
+      title: captionRef.current.value,
+      photoURL: user?.photoURL,
+      timestamp: serverTimestamp(),
+    });
+
+    const imageRef = ref(storage, `social_app/${docRef.id}/image`);
+    await uploadString(imageRef, selectedFile, "data_url").then(
+      async (snapshot) => {
+        const downloadURL = await getDownloadURL(imageRef);
+        await updateDoc(doc(db, "social_app", docRef.id), {
+          postPic: downloadURL,
+        });
+      }
+    );
 
     setIsModal(false);
     setLoading(false);
     setSelectedFile(null);
+    router.push("/");
   };
 
   const addImageToPost = (e) => {

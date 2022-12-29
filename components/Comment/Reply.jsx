@@ -1,8 +1,8 @@
 import React from "react";
 import { ArrowDownIcon, HeartIcon } from "@heroicons/react/24/solid";
-import ReactTimeAgo from "react-time-ago";
+import Moment from "react-moment";
 
-const Reply = ({ photoURL, name, comment, timestamp, postedUserComment,repliedMessage: {id} }) => {
+const Reply = ({ photoURL, username, comment, timestamp, postedUserComment,repliedMessage: {id} }) => {
   return (
     <div classNmae="flex flex-col border-b border-gray-200 dark:border-gray-800 " style={{marginTop: '10px', marginBottom: '10px'}}>
       <div className="flex items-center justify-around bg-gray-200 dark:bg-gray-800 rounded-lg w-[80%] ml-4 my-1">
@@ -13,7 +13,7 @@ const Reply = ({ photoURL, name, comment, timestamp, postedUserComment,repliedMe
             className="h-[1.2rem] w-[1.2rem] rounded-full mr-2"
           />
           <span className="font-bold text-sm text-gray-400">
-            {name.toLocaleLowerCase().trim()}
+            {username?.toLocaleLowerCase().trim()}
             <span className="text-sm font-semibold ml-1">
               {comment.length > 15 ? comment.splice(0, 15) + '...' : comment}
             </span>
@@ -38,7 +38,9 @@ const Reply = ({ photoURL, name, comment, timestamp, postedUserComment,repliedMe
       </div>
       <div className=" w-[40%] ml-8 flex justify-between items-center">
         <span className="comment-bottom-text mr-2">
-          <ReactTimeAgo date={new Date()} locale="en-US" />
+        <Moment fromNow >
+                {timestamp?.toDate()}
+              </Moment>
         </span>
         <span className="comment-bottom-text">2 likes</span>
         <span className="comment-bottom-text">Reply</span>

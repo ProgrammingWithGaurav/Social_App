@@ -17,6 +17,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { ExploreIcon, ActiveExploreIcon } from "../components/Icons/Icon";
 import { useRouter } from "next/router";
+import { onSnapshot, orderBy, query, collection } from "firebase/firestore";
+import { db } from "../firebase";
 
 const StateContext = createContext();
 
@@ -29,51 +31,51 @@ export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [activeSidebarMenu, setActiveSidebarMenu] = useState("Home");
   const [activePost, setActivePost] = useState(null);
-  const [isModal, setIsModal] = useState(true);
+  const [isModal, setIsModal] = useState(false);
 
   const [posts, setPosts] = useState([
-    {
-      photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
-      userUid: "user1",
-      id: "user1post",
-      name: "Gaurav",
-      postPic:
-        "https://img.freepik.com/free-psd/social-media-instagram-post-template_47618-73.jpg?w=2000",
-      likes: 0,
-      comments: [
-        {
-          id: 'afdad',
-          name: "John Smith",
-          comment: "Nice post",
-          photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
-          timestamp: new Date(),
-          type: 'comment'
-        },{
-          id: '2',
-          name: "Gaurav",
-          comment: "Nice post",
-          photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
-          timestamp: new Date(),
-          type: 'comment'
-        },
-         {
-          id: 2,
-          name: "John Smith",
-          comment: "Nice post",
-          photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
-          timestamp: new Date(),
-          repliedMessage: {
-            id: 'afdad',
-            name: "John Smith",
-            photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
-            timestamp: new Date(),
-          },
-          type: 'reply',
-        },
-      ],
-      title: "hi see my this post",
-      views: 120,
-    }
+    // {
+    //   photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
+    //   userUid: "user1",
+    //   id: "user1post",
+    //   name: "Gaurav",
+    //   postPic:
+    //     "https://img.freepik.com/free-psd/social-media-instagram-post-template_47618-73.jpg?w=2000",
+    //   likes: 0,
+    //   comments: [
+    //     {
+    //       id: 'afdad',
+    //       name: "John Smith",
+    //       comment: "Nice post",
+    //       photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
+    //       timestamp: new Date(),
+    //       type: 'comment'
+    //     },{
+    //       id: '2',
+    //       name: "Gaurav",
+    //       comment: "Nice post",
+    //       photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
+    //       timestamp: new Date(),
+    //       type: 'comment'
+    //     },
+    //      {
+    //       id: 2,
+    //       name: "John Smith",
+    //       comment: "Nice post",
+    //       photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
+    //       timestamp: new Date(),
+    //       repliedMessage: {
+    //         id: 'afdad',
+    //         name: "John Smith",
+    //         photoURL: "https://avatars.githubusercontent.com/u/88154142?v=4",
+    //         timestamp: new Date(),
+    //       },
+    //       type: 'reply',
+    //     },
+    //   ],
+    //   title: "hi see my this post",
+    //   views: 120,
+    // }
   ]);
   const MenuItems = [
     {
@@ -153,6 +155,24 @@ export const ContextProvider = ({ children }) => {
       unsubscribe();
     };
   }, [user]);
+
+  
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "social_app"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => {
+          setPosts(snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })));
+        }
+      ),
+    [db]
+  );
   return (
     <StateContext.Provider
       value={{

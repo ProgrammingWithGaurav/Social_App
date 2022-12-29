@@ -1,5 +1,5 @@
 import React from "react";
-import ReactTimeAgo from "react-time-ago";
+import Moment from "react-moment";
 import { useStateContext } from "../contexts/StateContext";
 import AddModal from '../components/AddModal';
 
@@ -14,7 +14,9 @@ const Profile = () => {
         <section className="w-64 mx-auto dark:bg-[#20354b] rounded-2xl px-8 py-6 shadow-lg">
           <div className="flex items-center justify-between">
             <span className="text-gray-400 text-sm">
-                <ReactTimeAgo date={new Date()} locale='en-US' />
+            <Moment fromNow className="text-sm pr-5">
+                {user?.createdAt.toDate()}
+              </Moment>
             </span>
             <span className="text-emerald-400">
               <svg

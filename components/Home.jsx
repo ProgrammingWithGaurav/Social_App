@@ -21,8 +21,8 @@ const HomePage = ({ page }) => {
         className={`lg:w-full md:w-[400px] sm:w-[85%] h-full mx-auto p-2 overflow-x-hidden ${"scrollbar"}shadow-lg`}
       >
         {page === "home"
-         && posts?.map((post, index) => <Post {...post} key={index} />)
-          }
+         &&( posts.length === 0 ? (<div className='font-bold text-2xl text-gray-700 '>No Post <br /> <span className='text-sm font-normal'>Be the first to post !!</span></div>) : posts?.map((post, index) => <Post {...post} key={index} />)
+          )}
           {page === 'comment' && <CommentTab />}
           {page === 'profile' && <Profile />}
       </div>

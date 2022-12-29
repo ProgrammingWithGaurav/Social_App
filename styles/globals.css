@@ -38,3 +38,6 @@
     background: transparent;
   }
   
+  body{
+    scroll-behavior: smooth;
+  }
