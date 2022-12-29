@@ -5,7 +5,6 @@ import AddModal from '../components/AddModal';
 
 const Profile = () => {
     const {user} = useStateContext();
-    const {photoURL, displayName, createdAt} = user;
   return (
     <div>
       <section
@@ -37,7 +36,7 @@ const Profile = () => {
           </div>
           <div className="mt-6 w-fit mx-auto">
             <img
-              src={photoURL || "https://api.lorem.space/image/face?w=120&h=120&hash=bart89fe"}
+              src={user?.photoURL || "https://api.lorem.space/image/face?w=120&h=120&hash=bart89fe"}
               className="rounded-full w-28 "
               alt="profile picture"
               srcset=""
@@ -46,7 +45,7 @@ const Profile = () => {
 
           <div className="mt-8 ">
             <h2 className="dark:text-white text-gray-700 font-bold text-2xl tracking-wide">
-             {displayName}
+             {user?.displayName}
             </h2>
           </div>
           <p className="text-emerald-400 font-semibold mt-2.5">Active</p>
