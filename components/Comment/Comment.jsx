@@ -1,8 +1,32 @@
 import React from "react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import Moment from "react-moment";
+import { useStateContext } from "../../contexts/StateContext";
 
-const Comment = ({ photoURL, comment, timestamp, postedUserComment , id, username}) => {
+const Comment = ({ photoURL, comment, timestamp, postedUserComment , id, username, title}) => {
+  const { setReplyMessage, replyMessage} = useStateContext();
+
+  const handleReply = () => {
+    setReplyMessage({
+              repliedMessage: {
+                id: id,
+                username: username,
+                photoURL: photoURL,
+                comment: comment
+              },
+    })
+  }
+  const handleReplyToPostSender = () => {
+    setReplyMessage({
+              repliedMessage: {
+                id: id,
+                username: username,
+                photoURL: photoURL,
+                comment: title
+              },
+    })
+    console.log(replyMessage)
+  }
   return (
     <div classNmae="flex flex-col border-b border-gray-200 dark:border-gray-800 " id={id}>
       <div className="flex items-center justify-around">
@@ -30,7 +54,11 @@ const Comment = ({ photoURL, comment, timestamp, postedUserComment , id, usernam
               </Moment>
         </span>
         <span className="comment-bottom-text">2 likes</span>
-        <span className="comment-bottom-text">Reply</span>
+        {postedUserComment ? (
+        <span className="comment-bottom-text" onClick={handleReplyToPostSender}>Reply</span>
+          ): (
+            <span className="comment-bottom-text" onClick={handleReply}>Reply</span>
+        )}
       </div>
     </div>
   );

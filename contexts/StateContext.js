@@ -32,6 +32,7 @@ export const ContextProvider = ({ children }) => {
   const [activeSidebarMenu, setActiveSidebarMenu] = useState("Home");
   const [activePost, setActivePost] = useState(null);
   const [isModal, setIsModal] = useState(false);
+  const [replyMessage, setReplyMessage] = useState(null);
 
   const [posts, setPosts] = useState([
     // {
@@ -193,7 +194,7 @@ export const ContextProvider = ({ children }) => {
         MenuItems,
         posts,
         setPosts,
-        isModal, setIsModal
+        isModal, setIsModal, replyMessage, setReplyMessage
       }}
     >
       {children}

@@ -1,4 +1,3 @@
-import React from "react";
 import { useStateContext } from "../contexts/StateContext";
 import CommentTab from "./Comment/CommentTab";
 import LeftSidebar from "./LeftSidebar";

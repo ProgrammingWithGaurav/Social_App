@@ -5,24 +5,37 @@ import { useStateContext } from "../../contexts/StateContext";
 import Comment from "./Comment";
 import Reply from "./Reply";
 
-import { addDoc, collection, doc, serverTimestamp, getDoc, query , onSnapshot, orderBy} from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  getDoc,
+  query,
+  onSnapshot,
+  orderBy,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 
 export default function CommentTab() {
-  const { posts, user, setPosts } = useStateContext();
+  const { user, replyMessage, setReplyMessage } = useStateContext();
   const router = useRouter();
   const { query: activePost } = useRouter();
   const [input, setInput] = useState("");
   const [comments, setComments] = useState([]);
   const [postDetails, setPostDetails] = useState(null);
-  console.log(activePost,'hiiii')
 
-
+  // Fetching Comments
   useEffect(
     () =>
       onSnapshot(
         query(
-          collection(db, "social_app", 'WGUazYB0uHW9eJ7fYQ77', "comments"),
+          collection(
+            db,
+            "social_app",
+            activePost["CommentPage"][0],
+            "comments"
+          ),
           orderBy("timestamp", "asc")
         ),
         (snapshot) =>
@@ -33,37 +46,63 @@ export default function CommentTab() {
             }))
           )
       ),
-    [db, activePost["CommentPage"]]
+    [db, activePost["CommentPage"][0]]
   );
 
   useEffect(() => {
     const getPostDetais = async () => {
-      const docRef = doc(db, "social_app", 'WGUazYB0uHW9eJ7fYQ77');
+      const docRef = doc(db, "social_app", activePost["CommentPage"][0]);
       const docSnap = await getDoc(docRef);
-      console.log(docSnap.data())
-      setPostDetails({...docSnap.data()})
+      setPostDetails({ ...docSnap.data() });
     };
     getPostDetais();
   }, [db, activePost["CommentPage"]]);
 
-  useEffect(() => {console.log(postDetails)}, [postDetails])
 
   const sendComment = async (e) => {
     if (e.key === "Enter" && input.trim() !== "") {
       const commentToSend = input;
-      setInput('');
-      const newComment = {
-        username: user.displayName,
-        comment: commentToSend,
-        photoURL: user.photoURL,
-        timestamp: serverTimestamp(),
-        type: "comment",
-      };
-      await addDoc(
-        collection(db, "social_app", 'WGUazYB0uHW9eJ7fYQ77', "comments"),
-        newComment
-      );
-      window.scrollTo(0, document.body.scrollHeight);
+      setInput("");
+      if (replyMessage === null) {
+        const newComment = {
+          username: user.displayName,
+          comment: commentToSend,
+          photoURL: user.photoURL,
+          timestamp: serverTimestamp(),
+          type: "comment",
+        };
+        await addDoc(
+          collection(
+            db,
+            "social_app",
+            activePost["CommentPage"][0],
+            "comments"
+          ),
+          newComment
+        );
+        window.scrollTo(0, document.body.scrollHeight);
+      } else {
+        const newComment = {
+          username: user?.displayName,
+          comment: commentToSend,
+          photoURL: user?.photoURL,
+          timestamp: serverTimestamp(),
+          type: "reply",
+          ...replyMessage,
+        };
+        await addDoc(
+          collection(
+            db,
+            "social_app",
+            activePost["CommentPage"][0],
+            "comments"
+          ),
+          newComment
+        );
+        setReplyMessage(null);
+        window.scrollTo(0, document.body.scrollHeight);
+        setReplyMessage(null)
+      }
     }
   };
 
@@ -89,14 +128,15 @@ export default function CommentTab() {
         <Comment
           {...postDetails}
           comment={postDetails?.title}
+          id={activePost['CommentPage'][0]}
           postedUserComment={true}
         />
         <span className="w-full border-b border-gray-100 dark:border-gray-800 " />
         {comments?.map((comment, index) =>
           comment.type === "comment" ? (
-            <Comment key={index} {...comment} />
+            <Comment key={index} {...comment} postedUserComment={false} />
           ) : (
-            <Reply key={index} {...comment} />
+            <Reply key={index} {...comment}  postedUserComment={false}/>
           )
         )}
       </div>

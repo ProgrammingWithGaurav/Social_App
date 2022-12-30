@@ -14,7 +14,7 @@ const Profile = () => {
           <div className="flex items-center justify-between">
             <span className="text-gray-400 text-sm">
             <Moment fromNow className="text-sm pr-5">
-                {user?.createdAt.toDate()}
+                {user?.createdAt?.toDate()}
               </Moment>
             </span>
             <span className="text-emerald-400">
@@ -36,7 +36,7 @@ const Profile = () => {
           </div>
           <div className="mt-6 w-fit mx-auto">
             <img
-              src={user?.photoURL || "https://api.lorem.space/image/face?w=120&h=120&hash=bart89fe"}
+              src={user?.photoURL}
               className="rounded-full w-28 "
               alt="profile picture"
               srcset=""

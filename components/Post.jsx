@@ -7,10 +7,66 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import Moment from 'react-moment';
+import { useState, useEffect } from "react";
+
+import { collection, onSnapshot, setDoc, doc, deleteDoc, query } from "firebase/firestore";
+import { db } from "../firebase";
+import { useStateContext } from "../contexts/StateContext";
 
 
-const Post = ({ photoURL, name, postPic, likes, comment, id, timestamp }) => {
+const Post = ({ photoURL, name, postPic, id, timestamp }) => {
   const router = useRouter();
+  const [comments, setComments] = useState([]);
+  const {user} = useStateContext();
+  
+  
+  const [likes, setLikes] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  
+  useEffect(() => onSnapshot(
+    query(
+      collection(db, 'social_app', id, 'comments'),
+    )
+    , snapshot => setComments(snapshot.docs.map(doc => ({
+      id: doc.id, ...doc.data()
+    })))
+  ), [db, id])
+
+  
+  // Setting number of likes
+  useEffect(
+    () =>
+      onSnapshot(
+        collection(db, "social_app", id, "likes"),
+        (snapshot) =>
+          setLikes(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+          )
+      ),
+    [db, id]
+  );
+
+  
+  const likePost = async () => {
+    if (hasLiked) {
+      await deleteDoc(doc(db, "social_app", id, "likes", user.uid));
+    } else {
+      await setDoc(doc(db, "social_app", id, "likes", user.uid), {
+        username: user?.displayName,
+        id: user?.uid,
+      })
+    }
+  }
+
+  useEffect(() => {
+    setHasLiked(
+      likes.findIndex(like => like.id === user?.uid)!== -1)
+  }, [likes])
+
 
   return (
     <div
@@ -42,12 +98,12 @@ const Post = ({ photoURL, name, postPic, likes, comment, id, timestamp }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <span className="text-[9px] flex flex-col items-center">
-            <HeartIcon className="post-icon" />
-            {likes} {likes <= 1 ? "like" : "likes"}
+            <HeartIcon onClick={likePost} className={`post-icon ${hasLiked  && 'dark:text-red-400 fill-red-400 text-red-400 scale-125'} `} />
+            {likes.length} {likes.length <= 1 ? "like" : "likes"} 
           </span>
           <span className="text-[9px] flex flex-col items-center">
             <ChatBubbleOvalLeftIcon className="post-icon" />
-            {comment?.length} {comment?.length <= 1 ? "comment" : "comments"}
+            {comments?.length} {comments?.length <= 1 ? "comment" : "comments"}
           </span>
 
           <span className="flex flex-col items-center">
