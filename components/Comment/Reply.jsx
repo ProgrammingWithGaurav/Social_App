@@ -1,7 +1,17 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { ArrowDownIcon, HeartIcon } from "@heroicons/react/24/solid";
 import Moment from "react-moment";
 import { useStateContext } from "../../contexts/StateContext";
+
+import {
+  collection,
+  onSnapshot,
+  setDoc,
+  doc,
+  deleteDoc,
+  query,
+} from "firebase/firestore";
+import { db } from "../../firebase";
 
 const Reply = ({
   photoURL,
@@ -11,7 +21,41 @@ const Reply = ({
   id,
   repliedMessage,
 }) => {
-  const { setReplyMessage } = useStateContext();
+  const { setReplyMessage, user } = useStateContext();
+
+  const [likes, setLikes] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  // Setting number of likes
+  useEffect(
+    () =>
+      onSnapshot(
+        collection(db, "social_app", id, "comment_likes"),
+        (snapshot) =>
+          setLikes(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+          )
+      ),
+    [db, id]
+  );
+
+  const likeReply = async () => {
+    if (hasLiked) {
+      await deleteDoc(doc(db, "social_app", id, "comment_likes", user.uid));
+    } else {
+      await setDoc(doc(db, "social_app", id, "comment_likes", user.uid), {
+        username: user?.displayName,
+        id: user?.uid,
+      });
+    }
+  };
+
+  useEffect(() => {
+    setHasLiked(likes.findIndex((like) => like.id === user?.uid) !== -1);
+  }, [likes]);
 
   const handleReply = () => {
     setReplyMessage({
@@ -19,7 +63,7 @@ const Reply = ({
         id: id,
         username: username,
         photoURL: photoURL,
-        comment: comment
+        comment: comment,
       },
     });
   };
@@ -65,13 +109,13 @@ const Reply = ({
             </span>
           </span>
         </div>
-        <HeartIcon className="w-[1.8rem] post-icon text-gray-400 " />
+        <HeartIcon className={`w-[1.8rem] sidebar-icon text-gray-400 ${hasLiked  && 'dark:text-red-400 fill-red-400 text-red-400 scale-125'}`} onClick={likeReply} />
       </div>
       <div className=" w-[40%] ml-8 flex justify-between items-center">
         <span className="comment-bottom-text mr-2">
           <Moment fromNow>{timestamp?.toDate()}</Moment>
         </span>
-        <span className="comment-bottom-text">2 likes</span>
+        <span className="comment-bottom-text">{likes.length} {likes.length === 0 ? 'like' : 'likes'}</span>
         <span className="comment-bottom-text" onClick={handleReply}>
           Reply
         </span>

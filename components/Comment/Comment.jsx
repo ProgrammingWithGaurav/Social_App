@@ -1,10 +1,53 @@
-import React from "react";
+import React , {useEffect, useState} from "react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import Moment from "react-moment";
 import { useStateContext } from "../../contexts/StateContext";
 
+
+
+import { collection, onSnapshot, setDoc, doc, deleteDoc, query } from "firebase/firestore";
+import { db } from "../../firebase";
+
 const Comment = ({ photoURL, comment, timestamp, postedUserComment , id, username, title}) => {
-  const { setReplyMessage, replyMessage} = useStateContext();
+  const { setReplyMessage, replyMessage, user} = useStateContext();
+  const [hasLiked, setHasLiked] = useState(false);
+  const [likes, setLikes] = useState([]);
+
+  
+  // Setting number of likes
+  useEffect(
+    () =>
+      onSnapshot(
+        collection(db, "social_app", id, "comment_likes"),
+        (snapshot) =>
+          setLikes(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+          )
+      ),
+    [db, id]
+  );
+
+  
+  const likeComment = async () => {
+    if (hasLiked) {
+      await deleteDoc(doc(db, "social_app", id, "comment_likes", user.uid));
+    } else {
+      await setDoc(doc(db, "social_app", id, "comment_likes", user.uid), {
+        username: user?.displayName,
+        id: user?.uid,
+      })
+    }
+  }
+
+  useEffect(() => {
+    setHasLiked(
+      likes.findIndex(like => like.id === user?.uid)!== -1)
+  }, [likes])
+
+
 
   const handleReply = () => {
     setReplyMessage({
@@ -43,7 +86,7 @@ const Comment = ({ photoURL, comment, timestamp, postedUserComment , id, usernam
           </span>
         </div>
         {!postedUserComment && (
-          <HeartIcon className="w-[1.8rem] sidebar-icon text-gray-400 " />
+          <HeartIcon className={`w-[1.8rem] sidebar-icon text-gray-400 ${hasLiked  && 'dark:text-red-400 fill-red-400 text-red-400 scale-125'}`} onClick={likeComment} />
         )}
       </div>
 
@@ -53,7 +96,7 @@ const Comment = ({ photoURL, comment, timestamp, postedUserComment , id, usernam
                 {timestamp?.toDate()}
               </Moment>
         </span>
-        <span className="comment-bottom-text">2 likes</span>
+        <span className="comment-bottom-text">{likes.length} {likes.length === 0 ? 'like' : 'likes'}</span>
         {postedUserComment ? (
         <span className="comment-bottom-text" onClick={handleReplyToPostSender}>Reply</span>
           ): (
