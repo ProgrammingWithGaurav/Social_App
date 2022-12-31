@@ -38,6 +38,7 @@ export default function Sidebar() {
               >
                 {item.photoURL ? (
                   <img
+                  alt="photo"
                     src={item.photoURL}
                     className={`w-6 h-6 hover:opacity-90 rounded-full transition duration-75 ${
                       item.name === activeSidebarMenu && "ring-2 ring-gray-500"

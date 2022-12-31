@@ -18,6 +18,7 @@
     "javascript-time-ago": "^2.5.9",
     "next": "13.1.0",
     "react": "18.2.0",
+    "react-audio-player": "^0.17.0",
     "react-dom": "18.2.0",
     "react-moment": "^1.1.2",
     "tailwind-scrollbar": "^2.0.1"

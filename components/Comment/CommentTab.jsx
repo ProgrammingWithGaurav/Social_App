@@ -16,6 +16,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 export default function CommentTab() {
   const { user, replyMessage, setReplyMessage } = useStateContext();
@@ -60,13 +61,16 @@ export default function CommentTab() {
 
 
   const sendComment = async (e) => {
+    const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/12/02/audio_3b918d751d.mp3?filename=notifications-sound-127856.mp3');
     if (e.key === "Enter" && input.trim() !== "") {
       const commentToSend = input;
       setInput("");
+      audio.play();
       if (replyMessage === null) {
         const newComment = {
           username: user.displayName,
           comment: commentToSend,
+          user_uid: user.uid,
           photoURL: user.photoURL,
           timestamp: serverTimestamp(),
           type: "comment",
@@ -80,15 +84,20 @@ export default function CommentTab() {
           ),
           newComment
         );
+        audio.loop = false
         window.scrollTo(0, document.body.scrollHeight);
+
       } else {
+        const newReplyMessage  = replyMessage;
+        setReplyMessage(null);
         const newComment = {
           username: user?.displayName,
           comment: commentToSend,
+          user_uid: user.uid,
           photoURL: user?.photoURL,
           timestamp: serverTimestamp(),
           type: "reply",
-          ...replyMessage,
+          replyMessage: {...newReplyMessage}
         };
         await addDoc(
           collection(
@@ -99,9 +108,7 @@ export default function CommentTab() {
           ),
           newComment
         );
-        setReplyMessage(null);
         window.scrollTo(0, document.body.scrollHeight);
-        setReplyMessage(null)
       }
     }
   };
@@ -124,7 +131,7 @@ export default function CommentTab() {
         <PaperAirplaneIcon className="post-icon" />
       </div>
       {/* Comments */}
-      <div className="flex flex-col justify-center px-2 h-full">
+      <div className="flex flex-col justify-center px-2 h-full mt-4">
         <Comment
           {...postDetails}
           comment={postDetails?.title}
@@ -143,9 +150,12 @@ export default function CommentTab() {
 
       {/* Input */}
       <div className="bottom-0 w-[23.5rem] fixed  border-gray-50">
+        {replyMessage && (
+          <XCircleIcon className='post-icon' onClick={() => setReplyMessage(null)}/>
+        )}
         <input
           type="text"
-          placeholder="Comment..."
+          placeholder={replyMessage ? `Replying to ${replyMessage.repliedMessage.username}` : 'Comment...'}
           value={input}
           onKeyUp={(e) => sendComment(e)}
           onChange={(e) => setInput(e.target.value)}

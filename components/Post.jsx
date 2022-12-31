@@ -4,6 +4,7 @@ import {
   EllipsisVerticalIcon,
   HeartIcon,
   PaperAirplaneIcon,
+  XCircleIcon
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
 import Moment from 'react-moment';
@@ -14,7 +15,7 @@ import { db } from "../firebase";
 import { useStateContext } from "../contexts/StateContext";
 
 
-const Post = ({ photoURL, name, postPic, id, timestamp }) => {
+const Post = ({ photoURL, username, postPic, id, timestamp , user_uid}) => {
   const router = useRouter();
   const [comments, setComments] = useState([]);
   const {user} = useStateContext();
@@ -55,6 +56,9 @@ const Post = ({ photoURL, name, postPic, id, timestamp }) => {
     if (hasLiked) {
       await deleteDoc(doc(db, "social_app", id, "likes", user.uid));
     } else {
+      const audio = new Audio('./like.mp3');
+      audio.play();
+      audio.loop = false;
       await setDoc(doc(db, "social_app", id, "likes", user.uid), {
         username: user?.displayName,
         id: user?.uid,
@@ -66,6 +70,12 @@ const Post = ({ photoURL, name, postPic, id, timestamp }) => {
     setHasLiked(
       likes.findIndex(like => like.id === user?.uid)!== -1)
   }, [likes])
+  
+  const deletePost = async () => {
+    if(user.uid === user_uid){
+      await deleteDoc(doc(db, 'social_app', id))
+    }
+  }
 
 
   return (
@@ -74,8 +84,8 @@ const Post = ({ photoURL, name, postPic, id, timestamp }) => {
     >
       <div className="flex items-center justify-between ">
         <img src={photoURL} className="w-8 h-8 rounded-full" />
-        <span className="font-bold w-[80%]">
-          {name}
+        <span className="font-bold w-[80%] text-sm text-gray-700 dark:text-white">
+          {username}
           <span className="text-sm font-normal text-gray-600 dark:text-gray-300 ml-2">
           <Moment fromNow className="text-sm pr-5">
                 {timestamp?.toDate()}
@@ -83,7 +93,7 @@ const Post = ({ photoURL, name, postPic, id, timestamp }) => {
           </span>
         </span>
         <span>
-          <EllipsisVerticalIcon className="post-icon" />
+         {user.uid === user_uid ?  <XCircleIcon onClick={deletePost} className="post-icon text-red-500" /> : <EllipsisVerticalIcon className="post-icon" />}
         </span>
       </div>
 

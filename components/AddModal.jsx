@@ -29,6 +29,7 @@ export default function Modal() {
       username: user?.displayName,
       title: captionRef.current.value,
       photoURL: user?.photoURL,
+      user_uid: user?.uid,
       timestamp: serverTimestamp(),
     });
 
@@ -66,6 +67,7 @@ export default function Modal() {
         onClose={() => {
           setIsModal((previousIsModal) => !previousIsModal);
           setSelectedFile(null);
+          setLoading(false);
         }}
       >
         <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
