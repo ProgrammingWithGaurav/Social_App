@@ -97,7 +97,7 @@ const Comment = ({
   };
 
   const handleDelete = async () => {
-    await deleteDoc(doc(db, "social_app", query['CommentPage'][0], "comments", id));
+    await deleteDoc(doc(db, "social_app", query?.CommentPage[0], "comments", id));
   };
   return (
     <div
@@ -155,7 +155,7 @@ const Comment = ({
             Reply
           </span>
         )}
-        {user.uid === user_uid && (
+        {user.uid === user_uid && !postedUserComment && (
           <span className="comment-bottom-text ml-2" onClick={handleDelete}>
             Delete
           </span>

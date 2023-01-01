@@ -34,7 +34,7 @@ export default function CommentTab() {
           collection(
             db,
             "social_app",
-            activePost["CommentPage"][0],
+            activePost?.CommentPage[0],
             "comments"
           ),
           orderBy("timestamp", "asc")
@@ -47,17 +47,17 @@ export default function CommentTab() {
             }))
           )
       ),
-    [db, activePost["CommentPage"][0]]
+    [db, activePost?.CommentPage[0]]
   );
 
   useEffect(() => {
     const getPostDetais = async () => {
-      const docRef = doc(db, "social_app", activePost["CommentPage"][0]);
+      const docRef = doc(db, "social_app", activePost?.CommentPage[0]);
       const docSnap = await getDoc(docRef);
       setPostDetails({ ...docSnap.data() });
     };
     getPostDetais();
-  }, [db, activePost["CommentPage"]]);
+  }, [db, activePost?.CommentPage[0]]);
 
 
   const sendComment = async (e) => {
@@ -79,7 +79,7 @@ export default function CommentTab() {
           collection(
             db,
             "social_app",
-            activePost["CommentPage"][0],
+            activePost?.CommentPage[0],
             "comments"
           ),
           newComment
@@ -103,7 +103,7 @@ export default function CommentTab() {
           collection(
             db,
             "social_app",
-            activePost["CommentPage"][0],
+            activePost?.CommentPage[0],
             "comments"
           ),
           newComment
@@ -135,7 +135,7 @@ export default function CommentTab() {
         <Comment
           {...postDetails}
           comment={postDetails?.title}
-          id={activePost['CommentPage'][0]}
+          id={activePost?.CommentPage[0]}
           postedUserComment={true}
         />
         <span className="w-full border-b border-gray-100 dark:border-gray-800 " />

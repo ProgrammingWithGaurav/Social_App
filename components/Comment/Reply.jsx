@@ -10,8 +10,10 @@ import {
   doc,
   deleteDoc,
   query,
+  user_uid
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import { useRouter } from "next/router";
 
 const Reply = ({
   photoURL,
@@ -19,12 +21,14 @@ const Reply = ({
   comment,
   timestamp,
   id,
-  repliedMessage,
+  replyMessage: {repliedMessage},
+  user_uid,
 }) => {
   const { setReplyMessage, user } = useStateContext();
 
   const [likes, setLikes] = useState([]);
   const [hasLiked, setHasLiked] = useState(false);
+  const {query} = useRouter();
 
   // Setting number of likes
   useEffect(
@@ -41,6 +45,10 @@ const Reply = ({
       ),
     [db, id]
   );
+
+  const handleDelete = async () => {
+    await deleteDoc(doc(db, "social_app", query?.CommentPage[0], "comments", id));
+  };
 
   const likeReply = async () => {
     if (hasLiked) {
@@ -119,7 +127,14 @@ const Reply = ({
         <span className="comment-bottom-text" onClick={handleReply}>
           Reply
         </span>
+        
+        {user?.uid === user_uid && (
+          <span className="comment-bottom-text ml-2" onClick={handleDelete}>
+            Delete
+          </span>
+        )}
       </div>
+      
     </div>
   );
 };

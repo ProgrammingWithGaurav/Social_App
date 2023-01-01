@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import {
   HomeIcon,
@@ -7,6 +7,7 @@ import {
   PlusCircleIcon,
   PaperAirplaneIcon,
   HeartIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import {
   MagnifyingGlassIcon as ActiveMagnifyingGlassIcon,
@@ -14,6 +15,7 @@ import {
   PaperAirplaneIcon as ActiveAirplaneIcon,
   HeartIcon as ActiveHeartIcon,
   PlusCircleIcon as ActivePlusCircleIcon,
+  ArrowLeftOnRectangleIcon as ActiveArrowLeftOnRectangleIcon
 } from "@heroicons/react/24/solid";
 import { ExploreIcon, ActiveExploreIcon } from "../components/Icons/Icon";
 import { useRouter } from "next/router";
@@ -144,6 +146,15 @@ export const ContextProvider = ({ children }) => {
       photoURL: user?.photoURL,
       onClick: () => {
         router.push('/profile')
+      },
+    },
+    {
+      name: "Logout",
+      icon: <ArrowLeftOnRectangleIcon className='sidebar-icon'/>,
+      activeIcon: <ActiveArrowLeftOnRectangleIcon className='sidebar-icon text-black'/>,
+      onClick: () => {
+        auth.signOut();
+        router.push('/login');
       },
     },
   ];
